@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> New Document </title>
+  <script type="text/javascript" src="js/ext-base.js"></script>
+  <script type="text/javascript" src="js/ext-all.js"></script>
+  <script type="text/javascript">
+	Ext.onReady(function(){
+		Ext.get("b1").on("click",function(){
+			Ext.getDom("b1").style.color = "red";
+			Ext.getDom("b2").style.color = "black";
+			Ext.getDom("b3").style.color = "black";
+			Ext.getDom("b4").style.color = "black";
+			Ext.getDom("l1").style.display="block";
+			Ext.getDom("l2").style.display="none";
+			Ext.getDom("l3").style.display="none";
+			Ext.getDom("l4").style.display="none";
+		});
+		Ext.get("b2").on("click",function(){
+			Ext.getDom("b1").style.color = "black";
+			Ext.getDom("b2").style.color = "red";
+			Ext.getDom("b3").style.color = "black";
+			Ext.getDom("b4").style.color = "black";
+			Ext.getDom("l1").style.display="none";
+			Ext.getDom("l2").style.display="block";
+			Ext.getDom("l3").style.display="none";
+			Ext.getDom("l4").style.display="none";
+		});
+		Ext.get("b3").on("click",function(){
+			Ext.getDom("b1").style.color = "black";
+			Ext.getDom("b2").style.color = "black";
+			Ext.getDom("b3").style.color = "red";
+			Ext.getDom("b4").style.color = "black";
+			Ext.getDom("l1").style.display="none";
+			Ext.getDom("l2").style.display="none";
+			Ext.getDom("l3").style.display="block";
+			Ext.getDom("l4").style.display="none";
+		});
+		Ext.get("b4").on("click",function(){
+			Ext.getDom("b1").style.color = "black";
+			Ext.getDom("b2").style.color = "black";
+			Ext.getDom("b3").style.color = "black";
+			Ext.getDom("b4").style.color = "red";
+			Ext.getDom("l1").style.display="none";
+			Ext.getDom("l2").style.display="none";
+			Ext.getDom("l3").style.display="none";
+			Ext.getDom("l4").style.display="block";
+		});
+		changeState("divBtn","button","lables","li");
+	});
+	function changeState(parentId1,childTagType1,parentId2,childTagType2,focusClassName){
+		var index = -1;
+		var arr1 = Ext.query(childTagType1,Ext.getDom(parentId1));
+		//alert(arr1.length);
+		for(var i=0;i<arr1.length;i++){
+			if(arr1[i].style.display != "none"){
+				index = i;
+				arr1[i].style.color = "red";
+				//arr1[i].className = focusClassName;
+				break;
+			}
+		}
+		var arr2 = Ext.query(childTagType2,Ext.getDom(parentId2));
+		//alert(arr2.length);
+		for(var i=0;i<arr2.length;i++){
+			if(i == index){
+				arr2[i].style.display = "block";
+			} else {
+				arr2[i].style.display = "none";
+			}
+		}
+	}
+  </script>
+ </head>
+
+ <body>
+
+	<div id="divBtn">
+	 <button id="b1" style="display:none;color:red;">b1</button>
+	 <button id="b2">b2</button>
+	 <button id="b3">b3</button>
+	 <button id="b4">b4</button>
+	</div>
+  
+	<ul id="lables">
+		<li id="l1" style="display:block;">l1</li>
+		<li id="l2" style="display:none;">l2</li>
+		<li id="l3" style="display:none;">l3</li>
+		<li id="l4" style="display:none;">l4</li>
+	</ul>
+ </body>
+</html>
