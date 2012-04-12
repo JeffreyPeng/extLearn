@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+	<script type="text/javascript" src="js/ext-base.js"></script>
+	<script type="text/javascript" src="js/ext-all.js"></script>
+	<script type="text/javascript">
+	 
+	var dragObject  = null;
+	var mouseOffset = null;
+	 
+	function getMouseOffset(target, ev){
+	    ev = ev || window.event;
+	 
+	    var docPos    = getPosition(target);
+	    var mousePos  = mouseCoords(ev);
+	    return {x:mousePos.x - docPos.x, y:mousePos.y - docPos.y};
+	}
+	 
+	function getPosition(e){
+	    var left = 0;
+	    var top  = 0;
+	 
+	    while (e.offsetParent){
+	        left += e.offsetLeft;
+	        top  += e.offsetTop;
+	        e     = e.offsetParent;
+	    }
+	 
+	    left += e.offsetLeft;
+	    top  += e.offsetTop;
+	 
+	    return {x:left, y:top};
+	}
+	 
+	function mouseMove(ev){
+	    ev           = ev || window.event;
+	    var mousePos = mouseCoords(ev);
+	 
+	    if(dragObject){
+	        dragObject.style.position = 'absolute';
+	        dragObject.style.top      = mousePos.y - mouseOffset.y;
+	        dragObject.style.left     = mousePos.x - mouseOffset.x;
+	        return false;
+	    }
+	}
+	function mouseCoords(ev){
+	    if(ev.pageX || ev.pageY){
+	        return {x:ev.pageX, y:ev.pageY};
+	    }
+	    return {
+	        x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+	        y:ev.clientY + document.body.scrollTop  - document.body.clientTop
+	    };
+	}
+	function mouseUp(){
+	    dragObject = null;
+	}
+	 
+	function makeDraggable(item){
+	    if(!item) return;
+	    item.onmousedown = function(ev){
+	        dragObject  = this;
+	        mouseOffset = getMouseOffset(this, ev);
+	        return false;
+	    }
+	}
+	window.onload = function(){
+		var flyDivNode = Ext.getDom("flyDiv");
+		//alert(flyDivNode.style.left)
+		//alert(flyDivNode.style.top)
+		flyDivNode.style.left = '234px';
+		flyDivNode.style.top = '0px';
+
+		flyDivNode.onmousemove = mouseMove;
+		flyDivNode.onmouseup   = mouseUp;
+		makeDraggable(flyDivNode);
+	}
+	</script>
+</head>
+<body>
+	<div id="main" 
+		style="width:1024px;height:748px;margin:0 auto;background-color: aqua;" >
+		<button id="updateBtn">保存</button>
+	</div>
+	
+	<div id="flyDiv" 
+		style="position:absolute;width:35px;height:30px;background-color:olive;"
+		>
+	</div>
+</body>
+</html>
